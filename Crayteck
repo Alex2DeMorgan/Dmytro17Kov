@@ -1,0 +1,75 @@
+#include <iostream>
+#include <Windows.h>
+#include <fstream>
+#include <time.h>
+#include <iomanip>
+void vuvod(const char* text_txt);
+void random_filling(const char* Fil, int size);
+void calculecion(const char* File_pot1, const char* File_pot2, const char* File_pot3, const char* File_pot4);
+using namespace std;
+int main() {
+    srand(time(NULL));
+    int task_size = 30;
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    const char* text1_txt = "textA.txt";
+    const char* text2_txt = "textB.txt";
+    const char* text3_txt = "textC.txt";
+    const char* text4_txt = "textD.txt";
+    random_filling(text2_txt, task_size);
+    random_filling(text1_txt, task_size);
+    calculecion(text1_txt, text2_txt, text3_txt, text4_txt);
+    vuvod(text1_txt);
+    vuvod(text2_txt);
+    vuvod(text3_txt);
+    vuvod(text4_txt);
+}
+void random_filling(const char* Fil1, int size) {
+    int a = 0;
+    ofstream file(Fil1, ios::out);
+    if (!file) {
+        cout << "Не можливо відкрити файл : " << Fil1 << endl;
+    }
+    else {
+        for (int i{}; i < size; i++) {
+            a = rand() % 100;
+            file<< a << " ";
+        }
+    }
+    file.close();
+}
+void calculecion(const char* File_pot1, const char* File_pot2, const char* File_pot3, const char* File_pot4) {
+    ifstream textA(File_pot1, ios::in);
+    ifstream textB(File_pot2, ios::in);
+    ofstream textC(File_pot3, ios::out);
+    ofstream textD(File_pot4, ios::app);
+    if (!textA || !textB || !textC || !textD) {
+        cout << "Не можливо відкрити файлы !" << endl;
+    }
+    else {
+        int A, B, c;
+        while (textA) {
+            textA >> A;
+            textB >> B;
+            c = A - B;
+            if (c % 2 == 0) {
+                if (c > 0) {
+                    textC << c<< " ";
+                }
+                else {
+                    textD <<  c << " ";
+                }
+            }
+        }
+    }
+}
+void vuvod(const char* text_txt) {
+    ifstream text_vuvod(text_txt, ios::in);
+    cout << endl<< text_txt <<" Має в собі такі елементи : "<< endl;
+    while (text_vuvod) {
+        char s[256];
+        text_vuvod >> s;
+        cout << setw(4) << s;
+    }
+    text_vuvod.close();
+}
